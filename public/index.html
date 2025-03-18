@@ -47,6 +47,13 @@
     .coin-animation {
       animation: float 3s ease-in-out infinite;
     }
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-mint-dark">
@@ -135,7 +142,7 @@
 
       <div class="flex-1 flex justify-end">
         <button
-          id="connect-wallet-btn"
+          id="wallet-connect-btn"
           class="bg-transparent hover:bg-transparent text-[#EBF5ED] hover:text-mint-green transition-all"
         >
           Connect Wallet
@@ -249,14 +256,15 @@
   </main>
 
   <!-- Notification -->
-  <div id="notification" class="fixed top-20 left-1/2 -translate-x-1/2 bg-mint-green text-black p-4 rounded-md shadow-lg z-50 animate-in fade-in duration-300 hidden">
+  <div id="notification" class="fixed top-20 left-1/2 -translate-x-1/2 bg-mint-green text-black p-4 rounded-md shadow-lg z-50 hidden">
     Successfully connected!
   </div>
 
   <script>
-    // Simple demo functionality
+    // Wait for the DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', function() {
-      const connectWalletBtn = document.getElementById('connect-wallet-btn');
+      // Get all the elements we need to interact with
+      const walletConnectBtn = document.getElementById('wallet-connect-btn');
       const claimBtn = document.getElementById('claim-btn');
       const rewardAmount = document.getElementById('reward-amount');
       const mintAmount = document.getElementById('mint-amount');
@@ -264,6 +272,13 @@
       const walletInfo = document.getElementById('wallet-info');
       const walletAddress = document.getElementById('wallet-address');
       const networkName = document.getElementById('network-name');
+
+      // Check if elements exist to avoid null errors
+      if (!walletConnectBtn || !claimBtn || !rewardAmount || !mintAmount ||
+          !notification || !walletInfo || !walletAddress || !networkName) {
+        console.error('One or more required elements not found!');
+        return;
+      }
 
       // Generate random number between 1000-10000
       function generateRandomReward() {
@@ -277,6 +292,16 @@
 
       // Connect wallet simulation
       function connectWallet() {
+        console.log('Connecting wallet...');
+
+        // Simulate connecting with loading state
+        claimBtn.innerHTML = `
+          <div class="flex items-center gap-2">
+            <div class="animate-spin w-5 h-5 border-2 border-black/20 border-t-black rounded-full"></div>
+            Connecting...
+          </div>
+        `;
+
         // Simulate connecting
         setTimeout(() => {
           const reward = generateRandomReward();
@@ -302,6 +327,8 @@
 
       // Claim rewards simulation
       function claimRewards() {
+        console.log('Claiming rewards...');
+
         claimBtn.innerHTML = `
           <div class="flex items-center gap-2">
             <div class="animate-spin w-5 h-5 border-2 border-black/20 border-t-black rounded-full"></div>
@@ -325,15 +352,26 @@
       }
 
       // Button event listeners
-      connectWalletBtn.addEventListener('click', connectWallet);
-
-      claimBtn.addEventListener('click', function() {
-        if (claimBtn.textContent === 'Connect Wallet') {
+      if (walletConnectBtn) {
+        walletConnectBtn.addEventListener('click', function() {
+          console.log('Wallet connect button clicked');
           connectWallet();
-        } else if (claimBtn.textContent === 'Claim Rewards') {
-          claimRewards();
-        }
-      });
+        });
+      }
+
+      if (claimBtn) {
+        claimBtn.addEventListener('click', function() {
+          console.log('Claim button clicked:', claimBtn.textContent);
+          if (claimBtn.textContent.trim() === 'Connect Wallet') {
+            connectWallet();
+          } else if (claimBtn.textContent.trim() === 'Claim Rewards') {
+            claimRewards();
+          }
+        });
+      }
+
+      // Log that initialization is complete
+      console.log('Demo initialized successfully!');
     });
   </script>
 </body>
