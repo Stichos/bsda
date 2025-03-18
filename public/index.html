@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MintChain | Airdrop Claim Demo</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'mint-green': '#30BF54',
+            'mint-light-green': '#52FF7E',
+            'mint-dark': '#000000',
+            'mint-orange': '#FE9202',
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'pulse': 'pulse 2s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulse: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0.5' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .reward-glow {
+      text-shadow: 0 0 10px rgba(82, 255, 126, 0.7);
+      color: #30BF54;
+    }
+    .coin-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-mint-dark">
+  <!-- Navbar -->
+  <header class="fixed w-full top-0 py-8 z-[99] bg-mint-dark/80 backdrop-blur-sm">
+    <div class="flex justify-between items-center w-full max-w-[1320px] px-6 mx-auto">
+      <div class="flex-1">
+        <a href="/" class="block relative w-[126px] h-[32px] group text-[#EBF5ED]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="126"
+            height="32"
+            fill="none"
+            viewBox="0 0 126 32"
+            class="w-full h-full"
+          >
+            <g fill="currentColor">
+              <path d="M0 0c8.837 0 16 7.163 16 16C7.163 16 0 8.837 0 0M32 32c-8.837 0-16-7.163-16-16 8.837 0 16 7.163 16 16M16 16a8 8 0 0 1 8-8 8 8 0 0 1-8 8M16 16a8 8 0 0 1-8 8 8 8 0 0 1 8-8M82.96 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M72 6v22h3v2H65v-2h3V8h-.3l-8.2 17.58L51.3 8v20H54v2h-8v-2h2.7V6H46V4h8l6.5 13.94L67 4h8v2zM87.5 30v-2H85V10l-4 .6-2.6.4v2l2.6.4V28h-2.6v2zM111.7 30v-2H109V16c0-3.32-2.68-6-6-6-2.96 0-5.42 2.14-5.9 4.94V10l-4 .6-2.6.4v2l2.6.4V28h-2.6v2h9.1v-2h-2.5V16.96c0-2.2 1.74-3.96 3.94-3.96s3.96 1.76 3.96 3.96V28h-2.4v2zM120.7 13v15h5.3v2h-7.3c-1.1 0-2-.9-2-2V13h-3.74v-2h1.24c1.04 0 1.92-.64 2.3-1.52l.2-.42L118.6 5h2.1v6h5.3v2z"></path>
+            </g>
+          </svg>
+        </a>
+      </div>
+
+      <div class="hidden lg:flex items-center gap-8">
+        <div class="flex gap-2 items-center cursor-pointer group">
+          <span class="block py-4 text-md font-medium text-[#EBF5ED] group-hover:text-mint-green transition-colors">
+            Build
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="7"
+            viewBox="0 0 19 12"
+            class="w-4 h-4 text-[#EBF5ED] group-hover:text-mint-green transition-colors"
+          >
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="m2.115.656-1.5 1.5 9.193 9.193L19 2.156l-1.5-1.5L9.808 8.35z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex gap-2 items-center cursor-pointer group">
+          <span class="block py-4 text-md font-medium text-[#EBF5ED] group-hover:text-mint-green transition-colors">
+            Use
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="7"
+            viewBox="0 0 19 12"
+            class="w-4 h-4 text-[#EBF5ED] group-hover:text-mint-green transition-colors"
+          >
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="m2.115.656-1.5 1.5 9.193 9.193L19 2.156l-1.5-1.5L9.808 8.35z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex gap-2 items-center cursor-pointer group">
+          <span class="block py-4 text-md font-medium text-[#EBF5ED] group-hover:text-mint-green transition-colors">
+            $MINT
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="7"
+            viewBox="0 0 19 12"
+            class="w-4 h-4 text-[#EBF5ED] group-hover:text-mint-green transition-colors"
+          >
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="m2.115.656-1.5 1.5 9.193 9.193L19 2.156l-1.5-1.5L9.808 8.35z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </div>
+        <a href="#" class="flex items-center gap-2">
+          <div class="bg-mint-green text-black px-3 py-1 rounded-md font-medium">MINTY</div>
+        </a>
+      </div>
+
+      <div class="flex-1 flex justify-end">
+        <button
+          id="connect-wallet-btn"
+          class="bg-transparent hover:bg-transparent text-[#EBF5ED] hover:text-mint-green transition-all"
+        >
+          Connect Wallet
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="relative min-h-screen">
+    <div class="bg-mint-dark w-full min-h-screen relative py-[70px]">
+      <!-- Background gradient -->
+      <div class="w-full h-[100vh] max-h-[800px] absolute left-0 top-0 z-0">
+        <div
+          class="absolute bottom-0 left-0 h-[600px] w-full"
+          style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 1))">
+        </div>
+      </div>
+
+      <!-- Stars background -->
+      <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.1">
+        </div>
+      </div>
+
+      <!-- Airdrop Section -->
+      <div class="pt-24 pb-16 lg:pt-36 lg:pb-24">
+        <div class="w-full flex flex-col items-center relative z-10">
+          <div class="flex flex-col items-center">
+            <!-- Coin image -->
+            <div class="relative w-[200px] h-[200px] mb-8">
+              <div class="w-[210px] h-[210px] rounded-full bg-mint-light-green blur-[148px] absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-0"></div>
+              <div class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 coin-animation">
+                <img
+                  src="https://ext.same-assets.com/53723560/1956966566.gif"
+                  alt="MintChain Coin"
+                  class="w-[150px] h-[150px]"
+                />
+              </div>
+            </div>
+
+            <!-- Main numbers -->
+            <span id="reward-amount" class="text-[52px] leading-[60px] lg:text-[48px] lg:leading-[56px] font-bold mb-24 reward-glow">
+              120,000,000
+            </span>
+
+            <!-- Percentage circles -->
+            <div class="relative w-[80vw] h-[42vw] lg:w-[559px] lg:h-[300px]">
+              <!-- 10% section -->
+              <div class="h-30 lg:h-50 flex gap-4 absolute -left-10 lg:left-8 -top-4">
+                <span class="text-sm lg:text-base text-right">
+                  <span class="text-md lg:text-[20px] font-bold text-mint-green">10%</span>
+                  <br />
+                  10% of total supply <br />
+                  is claimable for <br />
+                  eligible users.
+                </span>
+                <div class="w-6 h-full relative">
+                  <div class="w-6 h-6 rounded-full absolute left-0 top-0 bg-mint-green"></div>
+                  <div
+                    class="w-[3px] h-full rounded-full absolute left-1/2 -translate-x-1/2 top-2"
+                    style="background: linear-gradient(to bottom, #36D95F, rgba(54,217,95,0))">
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2% section -->
+              <div class="h-30 lg:h-50 flex gap-4 absolute -right-20 lg:-right-8 -top-4">
+                <div class="w-6 h-full relative">
+                  <div class="w-6 h-6 rounded-full absolute left-0 top-0 bg-mint-orange"></div>
+                  <div
+                    class="w-[3px] h-full rounded-full absolute left-1/2 -translate-x-1/2 top-2"
+                    style="background: linear-gradient(to bottom, #FE9202, rgba(254,146,2,0))">
+                  </div>
+                </div>
+                <span class="text-sm lg:text-base">
+                  <span class="text-md lg:text-[20px] font-bold text-mint-orange">2%</span>
+                  <br />
+                  2% of total supply will<br />
+                  be airdropped to Mint Forest V3 in 2026.
+                </span>
+              </div>
+
+              <!-- Center content -->
+              <div class="flex flex-col items-center absolute left-1/2 -translate-x-1/2 top-[78px] lg:top-[120px]">
+                <span class="text-sm">$MINT Airdrop</span>
+                <span class="text-sm lg:text-[20px] font-bold">12%</span>
+                <span id="mint-amount" class="text-sm lg:text-[20px] font-bold">
+                  120,000,000 $MINT
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connect/Claim button -->
+          <button
+            id="claim-btn"
+            class="w-[320px] h-12 rounded-xl mt-8 text-lg font-medium flex items-center justify-center break-keep whitespace-nowrap hover:brightness-110 bg-mint-green text-black"
+          >
+            Connect Wallet
+          </button>
+
+          <!-- Connected wallet info -->
+          <div id="wallet-info" class="mt-6 text-center hidden">
+            <p class="text-sm text-gray-400">Connected: <span id="wallet-address">0x0000...0000</span></p>
+            <p class="text-sm text-mint-green">Network: <span id="network-name">Not Connected</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Notification -->
+  <div id="notification" class="fixed top-20 left-1/2 -translate-x-1/2 bg-mint-green text-black p-4 rounded-md shadow-lg z-50 animate-in fade-in duration-300 hidden">
+    Successfully connected!
+  </div>
+
+  <script>
+    // Simple demo functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const connectWalletBtn = document.getElementById('connect-wallet-btn');
+      const claimBtn = document.getElementById('claim-btn');
+      const rewardAmount = document.getElementById('reward-amount');
+      const mintAmount = document.getElementById('mint-amount');
+      const notification = document.getElementById('notification');
+      const walletInfo = document.getElementById('wallet-info');
+      const walletAddress = document.getElementById('wallet-address');
+      const networkName = document.getElementById('network-name');
+
+      // Generate random number between 1000-10000
+      function generateRandomReward() {
+        return Math.floor(Math.random() * 9001) + 1000;
+      }
+
+      // Format number with commas
+      function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      // Connect wallet simulation
+      function connectWallet() {
+        // Simulate connecting
+        setTimeout(() => {
+          const reward = generateRandomReward();
+          rewardAmount.textContent = formatNumber(reward);
+          mintAmount.textContent = `${formatNumber(reward)} $MINT`;
+
+          claimBtn.textContent = 'Claim Rewards';
+
+          // Show fake wallet connection
+          walletInfo.classList.remove('hidden');
+          walletAddress.textContent = '0x7F5c...31607';
+          networkName.textContent = 'Optimism';
+
+          // Show notification
+          notification.textContent = 'Wallet connected successfully!';
+          notification.classList.remove('hidden');
+
+          setTimeout(() => {
+            notification.classList.add('hidden');
+          }, 3000);
+        }, 1000);
+      }
+
+      // Claim rewards simulation
+      function claimRewards() {
+        claimBtn.innerHTML = `
+          <div class="flex items-center gap-2">
+            <div class="animate-spin w-5 h-5 border-2 border-black/20 border-t-black rounded-full"></div>
+            Processing...
+          </div>
+        `;
+
+        // Simulate processing
+        setTimeout(() => {
+          claimBtn.textContent = 'Claimed Successfully!';
+          claimBtn.disabled = true;
+
+          // Show notification
+          notification.textContent = `Successfully claimed ${rewardAmount.textContent} $MINT!`;
+          notification.classList.remove('hidden');
+
+          setTimeout(() => {
+            notification.classList.add('hidden');
+          }, 3000);
+        }, 2000);
+      }
+
+      // Button event listeners
+      connectWalletBtn.addEventListener('click', connectWallet);
+
+      claimBtn.addEventListener('click', function() {
+        if (claimBtn.textContent === 'Connect Wallet') {
+          connectWallet();
+        } else if (claimBtn.textContent === 'Claim Rewards') {
+          claimRewards();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
